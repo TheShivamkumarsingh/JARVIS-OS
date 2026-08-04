@@ -1,10 +1,10 @@
 from app.brain.brain import Brain
 from app.memory.memory import Memory
-
+from app.conversation.engine import ConversationEngine
 
 class Assistant:
     def __init__(self):
-        self.brain = Brain()
+        self.engine = ConversationEngine()
         self.memory = Memory()
 
     def chat(self):
@@ -22,6 +22,6 @@ class Assistant:
 
     
 
-            response = self.brain.think(user_input)
+            response = self.engine.process(user_input)
 
             print(f"\nJARVIS: {response}")

@@ -46,7 +46,7 @@ class Memory:
 
     def get_history(self):
         self.cursor.execute(
-            "SELECT user_message FROM conversations ORDER BY id"
+            "SELECT user_message, assistant_message FROM conversations ORDER BY id"
         )
         return self.cursor.fetchall()
 
