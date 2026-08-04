@@ -31,15 +31,16 @@ class Memory:
             CREATE TABLE IF NOT EXISTS conversations (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_message TEXT,
+                assistant_message TEXT,
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
         self.connection.commit()
 
-    def remember(self, message):
+    def remember(self, user_message, assistant_message):
         self.cursor.execute(
-            "INSERT INTO conversations(user_message) VALUES(?)",
-            (message,)
+            "INSERT INTO conversations(user_message, assistant_message) VALUES(?, ?)",
+            (user_message, assistant_message)
         )
         self.connection.commit()
 

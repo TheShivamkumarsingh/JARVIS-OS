@@ -20,7 +20,7 @@ class Assistant:
                 print("\nJARVIS: Goodbye! Have a great day.")
                 break
 
-            self.memory.remember(user_input)
+    
 
             response = self.brain.think(user_input)
 
