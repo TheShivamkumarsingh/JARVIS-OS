@@ -25,3 +25,12 @@ class ToolManager:
             return tool.execute(tool_input)
 
         return None
+
+    def get_tool_metadata(self):
+
+        metadata = {}
+
+        for name, tool in self.tools.items():
+            metadata[name] = tool.get_metadata()
+
+        return metadata
