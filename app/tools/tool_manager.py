@@ -1,20 +1,27 @@
 from app.tools.calculator import CalculatorTool
+from app.tools.intent_router import IntentRouter
 
 
 class ToolManager:
 
     def __init__(self):
 
-        self.tools = [
-            CalculatorTool()
-        ]
+        self.router = IntentRouter()
+
+        self.tools = {
+            "calculator": CalculatorTool(),
+        }
 
     def execute(self, command: str):
 
-        for tool in self.tools:
+        tool_name, tool_input = self.router.route(command)
 
-            if tool.can_handle(command):
+        if tool_name is None:
+            return None
 
-                return tool.execute(command)
+        tool = self.tools.get(tool_name)
+
+        if tool:
+            return tool.execute(tool_input)
 
         return None
