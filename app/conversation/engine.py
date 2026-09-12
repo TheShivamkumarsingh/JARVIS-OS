@@ -11,8 +11,8 @@ class ConversationEngine:
 
         self.extractor = MemoryExtractor()
         self.memory = MemoryService()
-        self.context = ContextBuilder()
         self.tools = ToolManager()
+        self.context = ContextBuilder(self.tools)
         self.brain = Brain()
 
     def process(self, user_message: str):
