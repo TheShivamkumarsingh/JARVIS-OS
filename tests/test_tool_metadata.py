@@ -1,21 +1,24 @@
-from app.tools.calculator import CalculatorTool
+
+from app.tools.tool_manager import ToolManager
 
 
 def main():
 
-    calculator = CalculatorTool()
+    manager = ToolManager()
 
-    metadata = calculator.get_metadata()
+    metadata = manager.get_tool_metadata()
 
     print("========== TOOL METADATA ==========")
 
-    print("Name:", metadata["name"])
-    print("Description:", metadata["description"])
+    for name, details in metadata.items():
 
-    print("Examples:")
+        print(f"\nName: {details['name']}")
+        print(f"Description: {details['description']}")
 
-    for example in metadata["examples"]:
-        print("-", example)
+        print("Examples:")
+
+        for example in details["examples"]:
+            print("-", example)
 
 
 if __name__ == "__main__":

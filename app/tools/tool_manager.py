@@ -1,28 +1,28 @@
+from app.tools.base_tool import BaseTool
 from app.tools.calculator import CalculatorTool
-from app.tools.intent_router import IntentRouter
+from app.tools.system_info import SystemInfoTool
 
 
 class ToolManager:
 
     def __init__(self):
 
-        self.router = IntentRouter()
+        self.tools: dict[str, BaseTool] = {}
 
-        self.tools = {
-            "calculator": CalculatorTool(),
-        }
+        self.register(CalculatorTool())
+        self.register(SystemInfoTool())
+
+    def register(self, tool: BaseTool):
+
+        self.tools[tool.name] = tool
 
     def execute(self, command: str):
 
-        tool_name, tool_input = self.router.route(command)
+        for tool in self.tools.values():
 
-        if tool_name is None:
-            return None
+            if tool.can_handle(command):
 
-        tool = self.tools.get(tool_name)
-
-        if tool:
-            return tool.execute(tool_input)
+                return tool.execute(command)
 
         return None
 
@@ -31,6 +31,7 @@ class ToolManager:
         metadata = {}
 
         for name, tool in self.tools.items():
+
             metadata[name] = tool.get_metadata()
 
         return metadata
@@ -39,7 +40,7 @@ class ToolManager:
 
         descriptions = []
 
-        for name, tool in self.tools.items():
+        for tool in self.tools.values():
 
             metadata = tool.get_metadata()
 
@@ -50,6 +51,7 @@ class ToolManager:
             )
 
             for example in metadata["examples"]:
+
                 description += f"- {example}\n"
 
             descriptions.append(description)
